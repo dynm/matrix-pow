@@ -1,0 +1,26 @@
+﻿  seele_ocl.c
+C:\Users\Candice\source\repos\det_ocl\seele_ocl.c(28,18): warning C4047: “函数”:“FILE **”与“FILE *”的间接级别不同
+C:\Users\Candice\source\repos\det_ocl\seele_ocl.c(28,18): warning C4024: “fopen_s”: 形参和实参 1 的类型不同
+C:\Users\Candice\source\repos\det_ocl\seele_ocl.c(178,1): warning C4305: “初始化”: 从“double”到“float”截断
+C:\Users\Candice\source\repos\det_ocl\seele_ocl.c(40,12): warning C4101: “results”: 未引用的局部变量
+C:\Users\Candice\source\repos\det_ocl\seele_ocl.c(41,9): warning C4101: “float_mats”: 未引用的局部变量
+C:\Users\Candice\source\repos\det_ocl\seele_ocl.c(42,16): warning C4101: “correct”: 未引用的局部变量
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clGetDeviceIDs@24，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clCreateContext@24，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clReleaseContext@4，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clCreateCommandQueueWithProperties@16，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clReleaseCommandQueue@4，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clCreateBuffer@24，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clReleaseMemObject@4，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clCreateProgramWithSource@20，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clReleaseProgram@4，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clBuildProgram@24，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clGetProgramBuildInfo@24，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clCreateKernel@12，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clReleaseKernel@4，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clSetKernelArg@16，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clFinish@4，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clEnqueueReadBuffer@36，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clEnqueueWriteBuffer@36，该符号在函数 _main 中被引用
+seele_ocl.obj : error LNK2019: 无法解析的外部符号 _clEnqueueNDRangeKernel@36，该符号在函数 _main 中被引用
+C:\Users\Candice\source\repos\det_ocl\Debug\det_ocl.exe : fatal error LNK1120: 18 个无法解析的外部命令

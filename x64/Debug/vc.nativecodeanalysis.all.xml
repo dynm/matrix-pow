@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?><DEFECTS><DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\Candice\source\repos\det_ocl\</FILEPATH>
+      <FILENAME>determinant_qr.c</FILENAME>
+      <LINE>138</LINE>
+      <COLUMN>45</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>算术溢出: 使用 4 字节值上的运算符 + ，然后将结果转换到 8 字节值。在调用运算符 + 之前将值强制转换为宽类型可避免溢出(io.2)。</DESCRIPTION>
+    <FUNCTION>qr</FUNCTION>
+    <DECORATED>qr</DECORATED>
+    <FUNCLINE>63</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\Candice\source\repos\det_ocl\</FILEPATH>
+      <FILENAME>determinant_qr.c</FILENAME>
+      <LINE>194</LINE>
+      <COLUMN>5</COLUMN>
+    </SFA>
+    <DEFECTCODE>6262</DEFECTCODE>
+    <DESCRIPTION>函数使用了堆栈的“35032”个字节: 超过了 /analyze:stacksize '16384'。 请考虑将某些数据移到堆中。</DESCRIPTION>
+    <FUNCTION>run_mpow</FUNCTION>
+    <DECORATED>run_mpow</DECORATED>
+    <FUNCLINE>194</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\Candice\source\repos\det_ocl\</FILEPATH>
+      <FILENAME>determinant_qr.c</FILENAME>
+      <LINE>248</LINE>
+      <COLUMN>11</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>返回值被忽略: “getchar”。</DESCRIPTION>
+    <FUNCTION>main</FUNCTION>
+    <DECORATED>main</DECORATED>
+    <FUNCLINE>237</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\Candice\source\repos\det_ocl\</FILEPATH>
+      <FILENAME>determinant_qr.c</FILENAME>
+      <LINE>246</LINE>
+      <COLUMN>37</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>算术溢出: 使用 4 字节值上的运算符 - ，然后将结果转换到 8 字节值。在调用运算符 - 之前将值强制转换为宽类型可避免溢出(io.2)。</DESCRIPTION>
+    <FUNCTION>main</FUNCTION>
+    <DECORATED>main</DECORATED>
+    <FUNCLINE>237</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT></DEFECTS>

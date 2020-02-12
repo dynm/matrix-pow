@@ -1,0 +1,11 @@
+﻿  determinant_qr.c
+C:\Users\Candice\source\repos\det_ocl\determinant_qr.c(54,39): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\Candice\source\repos\det_ocl\determinant_qr.c(138,72): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  keccak.c
+  正在编译...
+  正在生成代码...
+  det_ocl.vcxproj -> C:\Users\Candice\source\repos\det_ocl\x64\Debug\det_ocl.exe
+C:\Users\Candice\source\repos\det_ocl\determinant_qr.c(138): warning C26451: 算术溢出: 使用 4 字节值上的运算符 + ，然后将结果转换到 8 字节值。在调用运算符 + 之前将值强制转换为宽类型可避免溢出(io.2)。
+C:\Users\Candice\source\repos\det_ocl\determinant_qr.c(194): warning C6262: 函数使用了堆栈的“35032”个字节: 超过了 /analyze:stacksize '16384'。 请考虑将某些数据移到堆中。
+C:\Users\Candice\source\repos\det_ocl\determinant_qr.c(248): warning C6031: 返回值被忽略: “getchar”。
+C:\Users\Candice\source\repos\det_ocl\determinant_qr.c(246): warning C26451: 算术溢出: 使用 4 字节值上的运算符 - ，然后将结果转换到 8 字节值。在调用运算符 - 之前将值强制转换为宽类型可避免溢出(io.2)。

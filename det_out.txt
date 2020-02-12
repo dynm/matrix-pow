@@ -1,0 +1,678 @@
+vec_len_squared: 15.000000
+det: -76959768.000000
+
+vec_len_squared: 14.000000
+det: 16387256.000000
+
+vec_len_squared: 12.000000
+det: -14351667.000000
+
+vec_len_squared: 12.000000
+det: 75750016.000000
+
+vec_len_squared: 13.000000
+det: -57686108.000000
+
+vec_len_squared: 18.000000
+det: -13888705.000000
+
+vec_len_squared: 14.000000
+det: -3087592.000000
+
+vec_len_squared: 13.000000
+det: -13442848.000000
+
+vec_len_squared: 12.000000
+det: 14002315.000000
+
+vec_len_squared: 17.000000
+det: -616499.375000
+
+vec_len_squared: 14.000000
+det: 18880596.000000
+
+vec_len_squared: 13.000000
+det: 30532938.000000
+
+vec_len_squared: 18.000000
+det: -9976092.000000
+
+vec_len_squared: 11.000000
+det: -7478688.000000
+
+vec_len_squared: 19.000000
+det: 2628289.500000
+
+vec_len_squared: 16.000000
+det: 3196250.750000
+
+vec_len_squared: 12.000000
+det: 2803162.250000
+
+vec_len_squared: 15.000000
+det: -11487029.000000
+
+vec_len_squared: 13.000000
+det: -39280092.000000
+
+vec_len_squared: 15.000000
+det: -2727212.000000
+
+vec_len_squared: 17.000000
+det: -15985202.000000
+
+vec_len_squared: 19.000000
+det: 28239656.000000
+
+vec_len_squared: 16.000000
+det: -14605176.000000
+
+vec_len_squared: 14.000000
+det: 13162423.000000
+
+vec_len_squared: 16.000000
+det: 21782546.000000
+
+vec_len_squared: 14.000000
+det: 16804450.000000
+
+vec_len_squared: 15.000000
+det: 40482172.000000
+
+vec_len_squared: 15.000000
+det: 96642752.000000
+
+vec_len_squared: 13.000000
+det: -173742304.000000
+
+vec_len_squared: 13.000000
+det: 73249008.000000
+
+vec_len_squared: 17.000000
+det: -76253152.000000
+
+vec_len_squared: 17.000000
+det: 33976764.000000
+
+vec_len_squared: 12.000000
+det: -5912399.000000
+
+vec_len_squared: 15.000000
+det: 49309976.000000
+
+vec_len_squared: 17.000000
+det: -15686381.000000
+
+vec_len_squared: 16.000000
+det: 7443720.000000
+
+vec_len_squared: 18.000000
+det: -3493829.000000
+
+vec_len_squared: 15.000000
+det: 522110.937500
+
+vec_len_squared: 8.000000
+det: -2762806.500000
+
+vec_len_squared: 14.000000
+det: 1673417.875000
+
+vec_len_squared: 12.000000
+det: -416836.968750
+
+vec_len_squared: 14.000000
+det: 7044158.000000
+
+vec_len_squared: 15.000000
+det: -3063835.000000
+
+vec_len_squared: 15.000000
+det: -1995670.750000
+
+vec_len_squared: 12.000000
+det: -9936317.000000
+
+vec_len_squared: 16.000000
+det: -13898581.000000
+
+vec_len_squared: 15.000000
+det: 9339638.000000
+
+vec_len_squared: 16.000000
+det: -39295856.000000
+
+vec_len_squared: 15.000000
+det: -70347384.000000
+
+vec_len_squared: 9.000000
+det: -89382616.000000
+
+vec_len_squared: 13.000000
+det: -40811000.000000
+
+vec_len_squared: 19.000000
+det: -23673888.000000
+
+vec_len_squared: 16.000000
+det: 38867672.000000
+
+vec_len_squared: 16.000000
+det: 78885792.000000
+
+vec_len_squared: 17.000000
+det: -309238368.000000
+
+vec_len_squared: 14.000000
+det: -62911028.000000
+
+vec_len_squared: 15.000000
+det: -82733144.000000
+
+vec_len_squared: 19.000000
+det: -60817612.000000
+
+vec_len_squared: 13.000000
+det: -56301928.000000
+
+vec_len_squared: 14.000000
+det: -240155744.000000
+
+vec_len_squared: 15.000000
+det: -94076616.000000
+
+vec_len_squared: 11.000000
+det: 43887676.000000
+
+vec_len_squared: 16.000000
+det: -49078900.000000
+
+vec_len_squared: 12.000000
+det: -9101169.000000
+
+vec_len_squared: 13.000000
+det: -81886552.000000
+
+vec_len_squared: 15.000000
+det: 39522272.000000
+
+vec_len_squared: 18.000000
+det: -6981798.000000
+
+vec_len_squared: 19.000000
+det: 9053960.000000
+
+vec_len_squared: 13.000000
+det: 38132132.000000
+
+vec_len_squared: 20.000000
+det: 8800951.000000
+
+vec_len_squared: 13.000000
+det: -14963769.000000
+
+vec_len_squared: 19.000000
+det: -89966400.000000
+
+vec_len_squared: 20.000000
+det: 153063776.000000
+
+vec_len_squared: 23.000000
+det: -54895036.000000
+
+vec_len_squared: 15.000000
+det: 6548603.500000
+
+vec_len_squared: 10.000000
+det: -2420426.750000
+
+vec_len_squared: 17.000000
+det: -2678025.000000
+
+vec_len_squared: 12.000000
+det: -2254224.500000
+
+vec_len_squared: 16.000000
+det: -5653.847656
+
+vec_len_squared: 14.000000
+det: 26025882.000000
+
+vec_len_squared: 13.000000
+det: 21248482.000000
+
+vec_len_squared: 12.000000
+det: 14790058.000000
+
+vec_len_squared: 19.000000
+det: 3438133.500000
+
+vec_len_squared: 15.000000
+det: -20063370.000000
+
+vec_len_squared: 13.000000
+det: -529640.937500
+
+vec_len_squared: 15.000000
+det: -21510448.000000
+
+vec_len_squared: 14.000000
+det: 25063520.000000
+
+vec_len_squared: 14.000000
+det: 41194240.000000
+
+vec_len_squared: 18.000000
+det: -98783096.000000
+
+vec_len_squared: 15.000000
+det: 22985826.000000
+
+vec_len_squared: 11.000000
+det: 43701076.000000
+
+vec_len_squared: 16.000000
+det: -79327096.000000
+
+vec_len_squared: 18.000000
+det: -71859952.000000
+
+vec_len_squared: 17.000000
+det: 59103752.000000
+
+vec_len_squared: 20.000000
+det: 36485472.000000
+
+vec_len_squared: 24.000000
+det: -30683080.000000
+
+vec_len_squared: 16.000000
+det: 25048594.000000
+
+vec_len_squared: 15.000000
+det: -23806556.000000
+
+vec_len_squared: 13.000000
+det: 40367824.000000
+
+vec_len_squared: 16.000000
+det: 3563464.250000
+
+vec_len_squared: 10.000000
+det: 3063256.500000
+
+vec_len_squared: 19.000000
+det: 20003400.000000
+
+vec_len_squared: 17.000000
+det: -10638825.000000
+
+vec_len_squared: 21.000000
+det: 12614835.000000
+
+vec_len_squared: 14.000000
+det: -5530249.000000
+
+vec_len_squared: 12.000000
+det: -92089200.000000
+
+vec_len_squared: 13.000000
+det: 51070348.000000
+
+vec_len_squared: 17.000000
+det: 24282854.000000
+
+vec_len_squared: 19.000000
+det: -30077976.000000
+
+vec_len_squared: 11.000000
+det: 33763100.000000
+
+vec_len_squared: 17.000000
+det: 54840308.000000
+
+vec_len_squared: 14.000000
+det: -94594664.000000
+
+vec_len_squared: 18.000000
+det: -43224120.000000
+
+vec_len_squared: 12.000000
+det: -11219101.000000
+
+vec_len_squared: 17.000000
+det: 4372671.500000
+
+vec_len_squared: 14.000000
+det: 3882732.000000
+
+vec_len_squared: 18.000000
+det: 45475900.000000
+
+vec_len_squared: 12.000000
+det: 57173768.000000
+
+vec_len_squared: 13.000000
+det: 27033102.000000
+
+vec_len_squared: 11.000000
+det: -34019668.000000
+
+vec_len_squared: 11.000000
+det: 40410484.000000
+
+vec_len_squared: 19.000000
+det: -40496400.000000
+
+vec_len_squared: 13.000000
+det: -32856988.000000
+
+vec_len_squared: 16.000000
+det: -20539656.000000
+
+vec_len_squared: 18.000000
+det: 9697153.000000
+
+vec_len_squared: 18.000000
+det: 15931628.000000
+
+vec_len_squared: 18.000000
+det: -22498562.000000
+
+vec_len_squared: 19.000000
+det: 65644908.000000
+
+vec_len_squared: 8.000000
+det: 81137400.000000
+
+vec_len_squared: 15.000000
+det: 21119300.000000
+
+vec_len_squared: 15.000000
+det: -20964636.000000
+
+vec_len_squared: 10.000000
+det: -2169524.750000
+
+vec_len_squared: 19.000000
+det: -24293526.000000
+
+vec_len_squared: 15.000000
+det: 58454168.000000
+
+vec_len_squared: 12.000000
+det: 130863168.000000
+
+vec_len_squared: 15.000000
+det: -34017296.000000
+
+vec_len_squared: 21.000000
+det: 24555208.000000
+
+vec_len_squared: 21.000000
+det: 5092220.500000
+
+vec_len_squared: 15.000000
+det: 28395572.000000
+
+vec_len_squared: 11.000000
+det: 26272588.000000
+
+vec_len_squared: 15.000000
+det: -30108622.000000
+
+vec_len_squared: 10.000000
+det: 9516769.000000
+
+vec_len_squared: 11.000000
+det: 4481850.500000
+
+vec_len_squared: 10.000000
+det: 2482396.000000
+
+vec_len_squared: 16.000000
+det: -4739503.000000
+
+vec_len_squared: 16.000000
+det: 12495659.000000
+
+vec_len_squared: 12.000000
+det: 16119663.000000
+
+vec_len_squared: 19.000000
+det: 4415456.000000
+
+vec_len_squared: 11.000000
+det: -1796305.375000
+
+vec_len_squared: 13.000000
+det: -12644483.000000
+
+vec_len_squared: 12.000000
+det: 27325538.000000
+
+vec_len_squared: 14.000000
+det: -100458848.000000
+
+vec_len_squared: 16.000000
+det: 36213220.000000
+
+vec_len_squared: 10.000000
+det: -8154319.000000
+
+vec_len_squared: 15.000000
+det: -3150062.500000
+
+vec_len_squared: 15.000000
+det: 3653940.750000
+
+vec_len_squared: 18.000000
+det: -11918844.000000
+
+vec_len_squared: 19.000000
+det: 4485440.500000
+
+vec_len_squared: 19.000000
+det: -4131212.500000
+
+vec_len_squared: 16.000000
+det: 2533423.000000
+
+vec_len_squared: 15.000000
+det: -26074562.000000
+
+vec_len_squared: 10.000000
+det: 21531960.000000
+
+vec_len_squared: 15.000000
+det: -4739671.000000
+
+vec_len_squared: 15.000000
+det: 18402414.000000
+
+vec_len_squared: 15.000000
+det: 9029707.000000
+
+vec_len_squared: 12.000000
+det: 13603371.000000
+
+vec_len_squared: 16.000000
+det: -3390010.500000
+
+vec_len_squared: 12.000000
+det: -978509.750000
+
+vec_len_squared: 6.000000
+det: -9686158.000000
+
+vec_len_squared: 14.000000
+det: 12362540.000000
+
+vec_len_squared: 16.000000
+det: -14834339.000000
+
+vec_len_squared: 11.000000
+det: -44741084.000000
+
+vec_len_squared: 17.000000
+det: 2795396.250000
+
+vec_len_squared: 15.000000
+det: -11409208.000000
+
+vec_len_squared: 14.000000
+det: -5379953.500000
+
+vec_len_squared: 15.000000
+det: 25541126.000000
+
+vec_len_squared: 15.000000
+det: -4964084.000000
+
+vec_len_squared: 12.000000
+det: 9719897.000000
+
+vec_len_squared: 15.000000
+det: 1647595.875000
+
+vec_len_squared: 18.000000
+det: -25429110.000000
+
+vec_len_squared: 16.000000
+det: 140576144.000000
+
+vec_len_squared: 20.000000
+det: 36778416.000000
+
+vec_len_squared: 15.000000
+det: -30462498.000000
+
+vec_len_squared: 14.000000
+det: 141534944.000000
+
+vec_len_squared: 13.000000
+det: 128240784.000000
+
+vec_len_squared: 11.000000
+det: 98603304.000000
+
+vec_len_squared: 16.000000
+det: 121598432.000000
+
+vec_len_squared: 12.000000
+det: 96603688.000000
+
+vec_len_squared: 10.000000
+det: -185974448.000000
+
+vec_len_squared: 17.000000
+det: -78999752.000000
+
+vec_len_squared: 12.000000
+det: -179411520.000000
+
+vec_len_squared: 14.000000
+det: 172618400.000000
+
+vec_len_squared: 18.000000
+det: -57853464.000000
+
+vec_len_squared: 18.000000
+det: -39965096.000000
+
+vec_len_squared: 13.000000
+det: 19723966.000000
+
+vec_len_squared: 13.000000
+det: 156182928.000000
+
+vec_len_squared: 14.000000
+det: -209037280.000000
+
+vec_len_squared: 18.000000
+det: 6440140.500000
+
+vec_len_squared: 18.000000
+det: 17650036.000000
+
+vec_len_squared: 13.000000
+det: 4782836.000000
+
+vec_len_squared: 7.000000
+det: 36480952.000000
+
+vec_len_squared: 19.000000
+det: 18822312.000000
+
+vec_len_squared: 15.000000
+det: -16316141.000000
+
+vec_len_squared: 16.000000
+det: 25063454.000000
+
+vec_len_squared: 18.000000
+det: 37940032.000000
+
+vec_len_squared: 15.000000
+det: -40384044.000000
+
+vec_len_squared: 20.000000
+det: -2252066.750000
+
+vec_len_squared: 14.000000
+det: 32528310.000000
+
+vec_len_squared: 15.000000
+det: 17873240.000000
+
+vec_len_squared: 14.000000
+det: 5295082.000000
+
+vec_len_squared: 16.000000
+det: 5527535.000000
+
+vec_len_squared: 18.000000
+det: 46558768.000000
+
+vec_len_squared: 13.000000
+det: 35556372.000000
+
+vec_len_squared: 12.000000
+det: 12480598.000000
+
+vec_len_squared: 18.000000
+det: 34559552.000000
+
+vec_len_squared: 13.000000
+det: 30832818.000000
+
+vec_len_squared: 16.000000
+det: 13377773.000000
+
+vec_len_squared: 15.000000
+det: -36984076.000000
+
+vec_len_squared: 17.000000
+det: -23788970.000000
+
+vec_len_squared: 13.000000
+det: 74841624.000000
+
+vec_len_squared: 13.000000
+det: -109876160.000000
+
+vec_len_squared: 16.000000
+det: 46972976.000000
+
+vec_len_squared: 12.000000
+det: 96934504.000000
+
+vec_len_squared: 16.000000
+det: -49466868.000000
+
+vec_len_squared: 17.000000
+det: 109034888.000000
+
+vec_len_squared: 15.000000
+det: 69963456.000000
+

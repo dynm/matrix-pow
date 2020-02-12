@@ -1,0 +1,21 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "opencl",
+            "label": "opencl: custom build [mpow] {ir}",
+            "command": "ioc64",
+            "args": [
+                "-cmd=build",
+                "-input=\"/media/dave/C2DCAA7ADCAA687D/Users/Candice/source/repos/det_ocl/mpow.cl\"",
+                "-ir=mpow.ir"
+            ],
+            "problemMatcher": [
+                "$opencl.common"
+            ],
+            "group": "build"
+        }
+    ]
+}
