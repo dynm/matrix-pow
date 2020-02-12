@@ -6,7 +6,7 @@
 #include <string.h>
 #include "sph_keccak.h"
 
-static const float float_map[16][4] = {
+static const double double_map[16][4] = {
     {0, 0, 0, 0}, // 0
     {0, 0, 0, 1}, // 1
     {0, 0, 1, 0}, // 2
@@ -25,7 +25,7 @@ static const float float_map[16][4] = {
     {1, 1, 1, 1}, // f
 };
 
-void expand_floats(float *output, uint8_t *input_bytes)
+void expand_doubles(double *output, uint8_t *input_bytes)
 {
     uint8_t key0;
     uint8_t key1;
@@ -33,43 +33,43 @@ void expand_floats(float *output, uint8_t *input_bytes)
     {
         key0 = (input_bytes[i] >> 4) & 0x0f;
         key1 = (input_bytes[i]) & 0x0f;
-        output[0 + 8 * i] = float_map[key0][0];
-        output[1 + 8 * i] = float_map[key0][1];
-        output[2 + 8 * i] = float_map[key0][2];
-        output[3 + 8 * i] = float_map[key0][3];
+        output[0 + 8 * i] = double_map[key0][0];
+        output[1 + 8 * i] = double_map[key0][1];
+        output[2 + 8 * i] = double_map[key0][2];
+        output[3 + 8 * i] = double_map[key0][3];
 
-        output[4 + 8 * i] = float_map[key1][0];
-        output[5 + 8 * i] = float_map[key1][1];
-        output[6 + 8 * i] = float_map[key1][2];
-        output[7 + 8 * i] = float_map[key1][3];
+        output[4 + 8 * i] = double_map[key1][0];
+        output[5 + 8 * i] = double_map[key1][1];
+        output[6 + 8 * i] = double_map[key1][2];
+        output[7 + 8 * i] = double_map[key1][3];
     }
 }
 
 #define MATRIX_DIM 30
-float sqrt_cache[30];
+double sqrt_cache[30];
 void sqrt_cache_init()
 {
     for (int i = 0; i < 30; i++)
     {
-        sqrt_cache[i] = sqrt((float)i);
+        sqrt_cache[i] = sqrt((double)i);
     }
 }
 
-float sqrt_cache_get(float input)
+double sqrt_cache_get(double input)
 {
     return sqrt_cache[(int)input];
 }
 
-void qr(float *input_mat, float *det)
+void qr(double *input_mat, double *det)
 {
-    float u_vec[MATRIX_DIM] = {0.0};
-    float local_mat[MATRIX_DIM][MATRIX_DIM] = {0.0};
-    float u_length_squared, dot;
+    double u_vec[MATRIX_DIM] = {0.0};
+    double local_mat[MATRIX_DIM][MATRIX_DIM] = {0.0};
+    double u_length_squared, dot;
 
-    float prod = 0.0f, vec_length = 0.0f;
+    double prod = 0.0f, vec_length = 0.0f;
 
     int row;
-    float priv_det = 1;
+    double priv_det = 1;
 
     for (int row = 0; row < MATRIX_DIM; row++)
     {
@@ -191,16 +191,18 @@ typedef union _nonce_t {
     uint8_t uint8_t[16];
 } nonce_t;
 
-void run_mpow(uint64_t offset)
+void run_mpow(uint64_t offset, double target)
 {
-    float mat[MATRIX_DIM * MATRIX_DIM];
+    double mat[MATRIX_DIM * MATRIX_DIM];
     uint8_t hash_result[32];
-    float hash_mat[MATRIX_DIM][256];
+    double hash_mat[MATRIX_DIM][256];
     nonce_t nonce_array;
     uint64_t nonce = 0;
     sph_keccak_context ctx;
     uint8_t header_mutable[259];
+    double dets[226];
     memcpy(header_mutable, header, 259);
+    int has_chance = 0;
 
     for (nonce = 0; nonce < MATRIX_DIM; nonce++)
     {
@@ -216,10 +218,10 @@ void run_mpow(uint64_t offset)
         sph_keccak256(&ctx, header_mutable, 259);
         sph_keccak256_close(&ctx, hash_result);
 
-        expand_floats(hash_mat[nonce], hash_result);
+        expand_doubles(hash_mat[nonce], hash_result);
     }
 
-    for (int det_offset = 0; det_offset < 226; det_offset++)
+    for (int det_offset = 206; det_offset < 226; det_offset++)
     {
         for (int i = 0; i < MATRIX_DIM; i++)
         {
@@ -228,19 +230,84 @@ void run_mpow(uint64_t offset)
                 mat[i * MATRIX_DIM + j] = hash_mat[i][j + det_offset];
             }
         }
-        float det;
+        double det;
         qr(mat, &det);
-        //printf("det: %f\n\n", det);
+        dets[det_offset] = det;
+        if (det > target)
+        {
+            has_chance = 1;
+        }
+        // printf("det: %f\n", det);
+    }
+    if (!has_chance)
+    {
+        return;
+    }
+
+    // printf("possible cond\n");
+
+    int positive_cnt = 0;
+    for (int det_offset = 1; det_offset < 206; det_offset++)
+    {
+        for (int i = 0; i < MATRIX_DIM; i++)
+        {
+            for (int j = 0; j < MATRIX_DIM; j++)
+            {
+                mat[i * MATRIX_DIM + j] = hash_mat[i][j + det_offset];
+            }
+        }
+        double det;
+        qr(mat, &det);
+        dets[det_offset] = det;
+        if (det > 0)
+        {
+            positive_cnt++;
+        }
+        if (positive_cnt == 119)
+        {
+            if (det > target)
+            {
+                printf("found nonce in origin: %ld, det: %f\n", offset, det);
+            }
+            return;
+        }
+        if (positive_cnt + (256 - det_offset - 30) < 119)
+        {
+            return;
+        }
+    }
+    for (int det_offset = 206; det_offset < 226; det_offset++)
+    {
+        double det;
+        det = dets[det_offset];
+        if (det > 0)
+        {
+            positive_cnt++;
+        }
+        if (positive_cnt == 119)
+        {
+            if (det > target)
+            {
+                printf("found nonce in speculer: %ld, det: %f\n", offset, det);
+            }
+            return;
+        }
+        if (positive_cnt + (256 - det_offset - 30) < 119)
+        {
+            return;
+        }
     }
 }
+
+double target = 346422970.0;
 
 int main()
 {
     sqrt_cache_init();
     clock_t begin = clock();
-    for (int try = 0; try < 1000; try ++)
+    for (int try = 0; try < 10000; try ++)
     {
-        run_mpow(try);
+        run_mpow(try, target);
     }
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
