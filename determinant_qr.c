@@ -4,6 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <immintrin.h>
 #include "sph_keccak.h"
 
 static const double double_map[16][4] = {
@@ -46,6 +47,34 @@ void expand_doubles(double *output, uint8_t *input_bytes)
 }
 
 #define MATRIX_DIM 30
+
+double reduce_vector2(__m256d input) {
+  __m256d temp = _mm256_hadd_pd(input, input);
+  __m128d sum_high = _mm256_extractf128_pd(temp, 1);
+  __m128d result = _mm_add_pd(sum_high, _mm256_castpd256_pd128(temp));
+  return ((double*)&result)[0];
+}
+
+double dot_product(const double *a, const double *b) {
+  __m256d sum_vec = _mm256_set_pd(0.0, 0.0, 0.0, 0.0);
+
+  /* Add up partial dot-products in blocks of 256 bits */
+  for(int ii = 0; ii < MATRIX_DIM/4; ++ii) {
+    __m256d x = _mm256_load_pd(a+4*ii);
+    __m256d y = _mm256_load_pd(b+4*ii);
+    __m256d z = _mm256_mul_pd(x,y);
+    sum_vec = _mm256_add_pd(sum_vec, z);
+  }
+
+  /* Find the partial dot-product for the remaining elements after
+   * dealing with all 256-bit blocks. */
+  double final = 0.0;
+  for(int ii = MATRIX_DIM-MATRIX_DIM%4; ii < MATRIX_DIM; ++ii)
+    final += a[ii] * b[ii];
+
+  return reduce_vector2(sum_vec) + final;
+}
+
 double sqrt_cache[30];
 void sqrt_cache_init()
 {
@@ -62,7 +91,8 @@ double sqrt_cache_get(double input)
 
 void qr(double *input_mat, double *det)
 {
-    double u_vec[MATRIX_DIM] = {0.0};
+    __attribute__ ((aligned (32))) double u_vec[MATRIX_DIM] = {0.0};
+    __attribute__ ((aligned (32))) double col_vec[MATRIX_DIM] = {0.0};
     double local_mat[MATRIX_DIM][MATRIX_DIM] = {0.0};
     double u_length_squared, dot;
 
@@ -92,9 +122,6 @@ void qr(double *input_mat, double *det)
         vec_length += u_vec[i];
     }
     u_length_squared = vec_length;
-    // vec_length = sqrt(vec_length + u_vec[0] * u_vec[0]);
-    //printf("vec_len_squared: %f\n", vec_length + u_vec[0]);
-    // vec_length = sqrt(vec_length + u_vec[0]);
     vec_length = sqrt_cache_get(vec_length + u_vec[0]);
     local_mat[0][0] = vec_length;
     u_vec[0] -= vec_length;
@@ -111,7 +138,9 @@ void qr(double *input_mat, double *det)
         for (int j = 0; j < MATRIX_DIM; j++)
         {
             dot += local_mat[j][i] * u_vec[j];
+            // col_vec[j] = local_mat[j][i];
         }
+        // dot = dot_product(col_vec, u_vec);
         for (row = 0; row < MATRIX_DIM; row++)
         {
             local_mat[row][i] -= 2 * u_vec[row] * dot / u_length_squared;
@@ -153,6 +182,17 @@ void qr(double *input_mat, double *det)
             {
                 dot += local_mat[j][i] * u_vec[j];
             }
+            
+            // for (int j = 0; j < MATRIX_DIM; j++)
+            // {
+            //     // dot += local_mat[j][i] * u_vec[j];
+            //     if (j<col){
+            //         col_vec[j] = 0;
+            //     }else{
+            //         col_vec[j] = local_mat[j][i];
+            //     }
+            // }
+            // dot = dot_product(col_vec, u_vec);
             for (row = 0; row < MATRIX_DIM; row++)
             {
                 if (row >= col)
@@ -299,18 +339,20 @@ void run_mpow(uint64_t offset, double target)
     }
 }
 
-double target = 346422970.0;
+double target = 3000000000.0;
+#define MIN_NONCE 995313
+#define MAX_NONCE 9999999999999999
 
 int main()
 {
     sqrt_cache_init();
     clock_t begin = clock();
-    for (int try = 0; try < 10000; try ++)
+    for (int try = MIN_NONCE; try < MIN_NONCE+10000; try ++)
     {
         run_mpow(try, target);
     }
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("clock: %lf\n", time_spent);
-    getchar();
+    // getchar();
 }

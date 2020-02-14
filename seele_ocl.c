@@ -14,7 +14,7 @@
 
 // Use a static data size for simplicity
 //
-#define HASH_ROWS 31
+#define HASH_ROWS 429
 
 #define MATRIX_DIM 30
 #define HASH_TRIES (HASH_ROWS - MATRIX_DIM + 1)
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
   cl_mem expanded_floats; // device memory used for the output array
   cl_mem det_buffer;
   cl_mem chance_buffer;
-  cl_mem checkdet_res_buffer;
+  // cl_mem checkdet_res_buffer;
   cl_mem checkdet_det_buffer;
 
   // Fill our data set with random float values
@@ -184,12 +184,12 @@ int main(int argc, char **argv)
                               sizeof(float) * DET_LEN * HASH_TRIES, NULL, NULL);
   chance_buffer = clCreateBuffer(context, CL_MEM_READ_WRITE,
                                  sizeof(int) * HASH_TRIES, NULL, NULL);
-  checkdet_res_buffer = clCreateBuffer(context, CL_MEM_WRITE_ONLY,
-                                       sizeof(int) * HASH_TRIES, NULL, NULL);
+  // checkdet_res_buffer = clCreateBuffer(context, CL_MEM_WRITE_ONLY,
+  //                                      sizeof(int) * HASH_TRIES, NULL, NULL);
   checkdet_det_buffer = clCreateBuffer(context, CL_MEM_WRITE_ONLY,
                                        sizeof(float) * HASH_TRIES, NULL, NULL);
 
-  if (!in_header || !keccak_res || !expanded_floats || !det_buffer || !chance_buffer || !checkdet_res_buffer ||
+  if (!in_header || !keccak_res || !expanded_floats || !det_buffer || !chance_buffer ||
       !checkdet_det_buffer)
   {
     printf("Error: Failed to allocate device memory!\n");
@@ -197,9 +197,11 @@ int main(int argc, char **argv)
   }
 
   err = 0;
+  cl_ulong nonce_start = 999;
   err = clSetKernelArg(kernels[0], 0, sizeof(cl_mem), &in_header);
-  err |= clSetKernelArg(kernels[0], 1, sizeof(cl_mem), &expanded_floats);
-  err |= clSetKernelArg(kernels[0], 2, sizeof(cl_mem), &keccak_res);
+  err |= clSetKernelArg(kernels[0], 1, sizeof(nonce_start), &nonce_start);
+  err |= clSetKernelArg(kernels[0], 2, sizeof(cl_mem), &expanded_floats);
+  err |= clSetKernelArg(kernels[0], 3, sizeof(cl_mem), &keccak_res);
 
   if (err < 0)
   {
@@ -209,24 +211,25 @@ int main(int argc, char **argv)
   // err = clSetKernelArg(kernels[1], 0, MATRIX_DIM * sizeof(float), NULL);
   err = clSetKernelArg(kernels[1], 0, sizeof(cl_mem), &expanded_floats);
   err |= clSetKernelArg(kernels[1], 1, sizeof(cl_mem), &det_buffer);
+  err |= clSetKernelArg(kernels[1], 2, sizeof(cl_mem), &chance_buffer);
   if (err < 0)
   {
     printf("Couldn't set a kernel[1] argument, err: %d", err);
     exit(1);
   };
-  float target = 346422970.0;
-  // err = clSetKernelArg(kernels[2], 0, sizeof(cl_mem), &det_buffer);
-  // err |= clSetKernelArg(kernels[2], 1, sizeof(target), &target);
-  // err |= clSetKernelArg(kernels[2], 2, sizeof(cl_mem), &chance_buffer);
-  // if (err < 0) {
-  //     printf("Couldn't set a kernel[2] argument, err: %d", err);
-  //     exit(1);
-  // };
+  float target = 800000000.0;
+  err = clSetKernelArg(kernels[2], 0, sizeof(cl_mem), &det_buffer);
+  err |= clSetKernelArg(kernels[2], 1, sizeof(target), &target);
+  err |= clSetKernelArg(kernels[2], 2, sizeof(cl_mem), &chance_buffer);
+  if (err < 0) {
+      printf("Couldn't set a kernel[2] argument, err: %d", err);
+      exit(1);
+  };
 
   err = clSetKernelArg(kernels[3], 0, sizeof(cl_mem), &det_buffer);
   err |= clSetKernelArg(kernels[3], 1, sizeof(target), &target);
-  err |= clSetKernelArg(kernels[3], 2, sizeof(cl_mem), &checkdet_res_buffer);
-  err |= clSetKernelArg(kernels[3], 3, sizeof(cl_mem), &checkdet_det_buffer);
+  // err |= clSetKernelArg(kernels[3], 2, sizeof(cl_mem), &checkdet_res_buffer);
+  err |= clSetKernelArg(kernels[3], 2, sizeof(cl_mem), &checkdet_det_buffer);
   if (err < 0)
   {
     printf("Couldn't set a kernel[3] argument, err: %d", err);
@@ -238,16 +241,22 @@ int main(int argc, char **argv)
   clock_t begin = clock();
 
   //for(int q=0; q<2; q++)
-  for (int kk = 0; kk < 1; kk++)
+  for (int kk = 0; kk < 1000000000; kk++)
   {
-    printf("header: ");
-    for (int i = 0; i < 259; i++)
-    {
-      printf("%02x", mutableheader[i] & 0xff);
-    }
-    printf("\n");
-    err = clEnqueueWriteBuffer(commands, in_header, CL_TRUE, 0, 240,
-                               mutableheader, 0, NULL, NULL);
+    // printf("header: ");
+    // for (int i = 0; i < 259; i++)
+    // {
+    //   printf("%02x", mutableheader[i] & 0xff);
+    // }
+    // printf("\n");
+
+    ////////////////////////////////Expand Header into Float Matrix Begin////////////////////////
+    // mutableheader[238] = (char)(0x30 + (kk / 10) % 10);
+    // mutableheader[239] = (char)(0x30 + kk % 10);
+    nonce_start = kk*HASH_TRIES;
+    err = clSetKernelArg(kernels[0], 1, sizeof(nonce_start), &nonce_start);
+    // err = clEnqueueWriteBuffer(commands, in_header, CL_TRUE, 0, 240,
+    //                            mutableheader, 0, NULL, NULL);
     if (err != CL_SUCCESS)
     {
       printf("Error: Failed to write to source array!\n");
@@ -264,51 +273,123 @@ int main(int argc, char **argv)
       return EXIT_FAILURE;
     }
     // tries += HASH_TRIES;
-    mutableheader[238] = (char)(0x30 + (kk / 10) % 10);
-    mutableheader[239] = (char)(0x30 + kk % 10);
-    float expanded[32 * HASH_ROWS * 8] = {0.0};
-    err = clEnqueueReadBuffer(commands, expanded_floats, CL_TRUE, 0,
-                              sizeof(expanded), expanded, 0, NULL, NULL);
 
-    char keccak_output[32 * HASH_ROWS];
-    err |= clEnqueueReadBuffer(commands, keccak_res, CL_TRUE, 0,
-                               sizeof(keccak_output), keccak_output, 0, NULL, NULL);
-    for (int jj = 0; jj < 32 * HASH_ROWS * 8; jj++)
-    {
-      printf("%1.0f, ", expanded[jj]);
-      if (((jj + 1) % 256) == 0)
-      {
-        printf("\n");
-      }
-    }
-    printf("\n");
     clFinish(commands);
+    ////////////////////////////////Expand Header into Float Matrix End////////////////////////
 
-    size_t qr_global_size[3] = {MATRIX_DIM, DET_LEN, HASH_TRIES};
+
+    ////////////////////////////////Calc Dets in speculer mode [last 20 dets] Begin////////////////////////
+    
+    
+    size_t qr_global_size[3];
+    size_t qr_global_offset[3];
     size_t qr_local_size[3] = {MATRIX_DIM, 1, 1};
-    err = clEnqueueNDRangeKernel(commands, kernels[1], 3, NULL, qr_global_size,
+
+    qr_global_size[0] = MATRIX_DIM;
+    qr_global_size[1] = 20;
+    qr_global_size[2] = HASH_TRIES;
+    qr_global_offset[0] = 0;
+    qr_global_offset[1] = 205;
+    qr_global_offset[2] = 0;
+    
+    err = clEnqueueNDRangeKernel(commands, kernels[1], 3, qr_global_offset, qr_global_size,
                                  qr_local_size, 0, NULL, NULL);
     if (err)
     {
-      printf("Error: Failed to check chance! err: %d\n", err);
+      printf("Error: Failed to calc dets in speculer mode! err: %d\n", err);
       return EXIT_FAILURE;
     }
     float det_res[DET_LEN * HASH_TRIES];
-    err = clEnqueueReadBuffer(commands, det_buffer, CL_TRUE, 0,
-                              sizeof(det_res), det_res, 0, NULL, NULL);
+    // err = clEnqueueReadBuffer(commands, det_buffer, CL_TRUE, 0,
+    //                           sizeof(det_res), det_res, 0, NULL, NULL);
 
-    for (int hashtries = 0; hashtries < HASH_TRIES; hashtries++)
+    // for (int hashtries = 0; hashtries < HASH_TRIES; hashtries++)
+    // {
+    //   printf("det: ");
+    //   for (int q = 0; q < DET_LEN; q++)
+    //   {
+    //     printf("%.2f, ", det_res[hashtries * DET_LEN + q]);
+    //   }
+    //   printf("\n\n");
+    // }
+
+    // cl_uint chance_buff[HASH_TRIES];
+    // err = clEnqueueReadBuffer(commands, chance_buffer, CL_TRUE, 0,
+    //                           sizeof(chance_buff), chance_buff, 0, NULL, NULL);
+    // if(err)
+    // {
+    //   printf("Error: Failed to readback chance buff, %d\n",err);
+    //   return EXIT_FAILURE;
+    // }
+    // for(int i = 0; i < HASH_TRIES; i++){
+    //   printf("chance buff readback: %d\n", chance_buff[i]);
+    // }
+    // printf("\n");
+    ////////////////////////////////Calc Dets in speculer mode [last 20 dets] End////////////////////////
+
+
+    ////////////////////////////////Check speculer chance Begin////////////////////////
+    size_t global_checkdet = HASH_TRIES;
+    target=8000000000;
+    clSetKernelArg(kernels[2], 1, sizeof(target), &target);
+    clSetKernelArg(kernels[3], 1, sizeof(target), &target);
+    err = clEnqueueNDRangeKernel(commands, kernels[2], 1, NULL,
+                                 &global_checkdet, NULL, 0, NULL, NULL);
+    if (err < 0)
     {
-      printf("det: ");
-      for (int q = 0; q < DET_LEN; q++)
-      {
-        printf("%.2f, ", det_res[hashtries * DET_LEN + q]);
-      }
-      printf("\n\n");
+      perror("Couldn't enqueue the kernel");
+      exit(1);
     }
 
-    size_t global_checkdet = HASH_TRIES;
-    cl_uint nonce[HASH_TRIES];
+    cl_uint chance[HASH_TRIES];
+
+    err = 0;
+    err = clEnqueueReadBuffer(commands, chance_buffer, CL_TRUE, 0,
+                              sizeof(chance), chance, 0, NULL, NULL);
+    if (err < 0)
+    {
+      perror("Couldn't read the buffers");
+      exit(1);
+    }
+    // for(int i=0; i< HASH_TRIES; i++){
+    //   printf("chance: %d\n",chance[i]);
+    // }
+
+    clFinish(commands);
+    ////////////////////////////////Check speculer chance End////////////////////////
+
+
+    ////////////////////////////////Calc Dets in normal mode [first 205 dets] Begin////////////////////////
+    qr_global_size[0] = MATRIX_DIM;
+    qr_global_size[1] = 205;
+    qr_global_size[2] = HASH_TRIES;
+    qr_global_offset[0] = 0;
+    qr_global_offset[1] = 0;
+    qr_global_offset[2] = 0;
+    err = clEnqueueNDRangeKernel(commands, kernels[1], 3, qr_global_offset, qr_global_size,
+                                 qr_local_size, 0, NULL, NULL);
+    if (err)
+    {
+      printf("Error: Failed to calc dets! err: %d\n", err);
+      return EXIT_FAILURE;
+    }
+    // err = clEnqueueReadBuffer(commands, det_buffer, CL_TRUE, 0,
+    //                           sizeof(det_res), det_res, 0, NULL, NULL);
+
+    // for (int hashtries = 0; hashtries < HASH_TRIES; hashtries++)
+    // {
+    //   printf("det: ");
+    //   for (int q = 0; q < DET_LEN; q++)
+    //   {
+    //     printf("%.2f, ", det_res[hashtries * DET_LEN + q]);
+    //   }
+    //   printf("\n\n");
+    // }
+    ////////////////////////////////Calc Dets in normal mode [first 205 dets] End////////////////////////
+
+    ////////////////////////////////Check Nonce Begin////////////////////////
+    global_checkdet = HASH_TRIES;
+    // cl_uint nonce[HASH_TRIES];
     float dets[HASH_TRIES] = {0.0};
     err = clEnqueueNDRangeKernel(commands, kernels[3], 1, NULL,
                                  &global_checkdet, NULL, 0, NULL, NULL);
@@ -320,9 +401,9 @@ int main(int argc, char **argv)
     clFinish(commands);
 
     err = 0;
-    err = clEnqueueReadBuffer(commands, checkdet_res_buffer, CL_TRUE, 0,
-                              sizeof(nonce), nonce, 0, NULL, NULL);
-    err |= clEnqueueReadBuffer(commands, checkdet_det_buffer, CL_TRUE, 0,
+    // err = clEnqueueReadBuffer(commands, checkdet_res_buffer, CL_TRUE, 0,
+    //                           sizeof(nonce), nonce, 0, NULL, NULL);
+    err = clEnqueueReadBuffer(commands, checkdet_det_buffer, CL_TRUE, 0,
                                sizeof(dets), dets, 0, NULL, NULL);
 
     if (err < 0)
@@ -334,11 +415,12 @@ int main(int argc, char **argv)
     {
       if (dets[i] < target)
       {
-        //   continue;
+          continue;
       }
-      printf("offset: %d, res: %d, det: %.2f\n", i + HASH_TRIES * kk, nonce[i], dets[i]);
+      // printf("offset: %d, res: %d, det: %.2f\n", i + HASH_TRIES * kk, nonce[i], dets[i]);
+      printf("offset: %d, det: %.2f\n", i + HASH_TRIES * kk, dets[i]);
     }
-    // clEnqueue
+    ////////////////////////////////Check Nonce End////////////////////////
   }
 
   clock_t end = clock();
@@ -350,7 +432,8 @@ int main(int argc, char **argv)
   clReleaseMemObject(keccak_res);
   clReleaseMemObject(expanded_floats);
   clReleaseMemObject(det_buffer);
-  clReleaseMemObject(checkdet_res_buffer);
+  clReleaseMemObject(chance_buffer);
+  // clReleaseMemObject(checkdet_res_buffer);
   clReleaseMemObject(checkdet_det_buffer);
   clReleaseProgram(program);
   clReleaseKernel(kernels[0]);

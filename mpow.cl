@@ -139,7 +139,7 @@ typedef union _nonce_t {
 #define OFFSET 28
 #define DET_LEN 225
 // __attribute__((reqd_work_group_size(WORKSIZE, 8, 1)))
-__kernel void genkeccakmat(__global ulong* header,
+__kernel void genkeccakmat(__global ulong* header, ulong nonce_start,
     __global float* mats, __global ulong* hash) {
     ulong id = get_local_id(0);
     ulong divisor = 1;
@@ -193,7 +193,7 @@ __kernel void genkeccakmat(__global ulong* header,
     }
     barrier(CLK_LOCAL_MEM_FENCE);
 
-    ulong nonce = id;
+    ulong nonce = id + nonce_start;
 #pragma unroll
     for (int pos = 0; pos < 16; pos++) {
         nonce_array.uint8_t[15 - pos] = 0x30 + (nonce / divisor) % 10;
@@ -227,7 +227,7 @@ __kernel void genkeccakmat(__global ulong* header,
 
 __attribute__((reqd_work_group_size(MATRIX_DIM, 1, 1)))
 __kernel void qr(__global float* input_mat,
-    __global float* det) {
+    __global float* det, __global int* has_chance) {
     local float u_vec[MATRIX_DIM];
     local float local_mat[MATRIX_DIM * MATRIX_DIM];
     local float u_length_squared, dot;
@@ -236,6 +236,11 @@ __kernel void qr(__global float* input_mat,
     int id = get_local_id(0);
     int col_offset = get_global_id(1);
     int row_offset = get_global_id(2);
+    if(col_offset < 205){
+        if(*(has_chance + row_offset)==0){
+            return;
+        }
+    }
 
 #pragma unroll
     for (int i = 0; i < MATRIX_DIM; i++) {
@@ -264,7 +269,7 @@ __kernel void qr(__global float* input_mat,
     else {
         local_mat[id * MATRIX_DIM] = 0.0f;
     }
-    barrier(CLK_GLOBAL_MEM_FENCE);
+    barrier(CLK_LOCAL_MEM_FENCE);
 
     /* Transform further columns of A */
     for (int i = 1; i < MATRIX_DIM; i++) {
@@ -300,7 +305,7 @@ __kernel void qr(__global float* input_mat,
         else if (id > col) {
             local_mat[id * MATRIX_DIM + col] = 0.0f;
         }
-        barrier(CLK_GLOBAL_MEM_FENCE);
+        barrier(CLK_LOCAL_MEM_FENCE);
 
         /* Transform further columns of A */
         for (int i = col + 1; i < MATRIX_DIM; i++) {
@@ -315,10 +320,10 @@ __kernel void qr(__global float* input_mat,
             if (id >= col)
                 local_mat[id * MATRIX_DIM + i] -=
                 2 * u_vec[id] * dot / u_length_squared;
-            barrier(CLK_GLOBAL_MEM_FENCE);
+            barrier(CLK_LOCAL_MEM_FENCE);
         }
 
-        barrier(CLK_GLOBAL_MEM_FENCE);
+        barrier(CLK_LOCAL_MEM_FENCE);
     }
 
     if (id == 0) {
@@ -333,24 +338,26 @@ __kernel void qr(__global float* input_mat,
 
 #define SEARCH_SIZE 20
 __kernel void check_chance(__global float* det, float target,
-    __global uint* has_chance) {
+    __global int* has_chance) {
     int row = get_global_id(0);
     int nonZeroCnt = 0;
     float cur_det = 0.0;
-    for (int col = 0; col < SEARCH_SIZE; col++) {
+    for (int col = 205; col < 225; col++) {
         //1~225
         //225-19=206
-        cur_det = *(det + row * DET_LEN + col+ (DET_LEN-SEARCH_SIZE-1));
+        cur_det = *(det + row * DET_LEN + col);
         if (cur_det > target) {
             has_chance[row] = 1;
-            break;
+            goto END;
         }
     }
+END:
+    // has_chance[row] = 1;
     barrier(CLK_GLOBAL_MEM_FENCE);
 }
 
 __kernel void check_dets(__global float* det, float target,
-    __global uint* has_nonce, __global float* target_pos_det) {
+    __global float* target_pos_det) {
     int row = get_global_id(0);
     int nonZeroCnt = 0;
     float cur_det = 0.0;
@@ -360,15 +367,13 @@ __kernel void check_dets(__global float* det, float target,
             nonZeroCnt++;
         }
         if (nonZeroCnt == 119 && cur_det > target) {
-            has_nonce[row] = col;
+            // has_nonce[row] = col;
             target_pos_det[row] = cur_det;
-            return;
+            goto END;
         }
     }
-    has_nonce[row] = 0;
+    // has_nonce[row] = 0;
     target_pos_det[row] = 0;
-    // cur_det = *(det + row * DET_LEN + DET_LEN);
-    // has_nonce[row] = 1;
-    // target_pos_det[row] = cur_det;
+END:
     barrier(CLK_GLOBAL_MEM_FENCE);
 }
